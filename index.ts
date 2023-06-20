@@ -1,12 +1,18 @@
-import express from "express";
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 
-const app = express();
+import { connectDataBase } from "./config/db";
+import { app } from "./app";
+
 const PORT = process.env.PORT || 5000;
 
-app.get("/", (req, res) => {
-  res.send("him");
-});
+connectDataBase();
 
-app.listen(PORT, () => {
-  console.log(`Port is listening on ${PORT}`);
-});
+const start = async () => {
+  app.listen(PORT, () => {
+    console.log(`Port is listening on ${PORT}`);
+  });
+};
+
+start();
