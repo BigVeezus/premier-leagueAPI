@@ -14,7 +14,7 @@ const authMiddleware = (req: any, res: Response, next: NextFunction) => {
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({
       success: false,
-      status: 404,
+      status: 401,
       message: "NOT AUTHORIZED!",
     });
   }

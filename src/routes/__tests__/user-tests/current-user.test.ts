@@ -1,7 +1,7 @@
 import request from "supertest";
-import { app } from "../../../app";
+import { app } from "../../../../app";
 import { response } from "express";
-import { token } from "../../../test/setup";
+import { token } from "../../../../test/setup";
 
 it("responds with details about current user", async () => {
   //   const jwt = await global.signin();

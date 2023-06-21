@@ -1,14 +1,14 @@
 import express, { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
-import { User } from "../../model/user";
-import { UserType } from "../../model/user";
+import { User } from "../../../model/user";
+import { UserType } from "../../../model/user";
 import { BadRequestError, validateRequest } from "@ticketifyorg/common";
 
 const router = express.Router();
 
 router.post(
-  "/api/users/signup",
+  "/api/users/admin/signup",
   [
     body("email").isEmail().withMessage("Email must be valid"),
     body("password")
@@ -49,8 +49,8 @@ router.post(
 
     res
       .status(201)
-      .send({ success: true, message: "user created", user, userJwt });
+      .send({ success: true, message: "Admin created", user, userJwt });
   }
 );
 
-export { router as signupRouter };
+export { router as adminSignupRouter };

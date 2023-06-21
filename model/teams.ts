@@ -38,7 +38,7 @@ const teamSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    staduim: {
+    stadium: {
       type: String,
       required: true,
     },

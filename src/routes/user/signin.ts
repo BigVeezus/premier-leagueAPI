@@ -1,10 +1,10 @@
 import express, { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
-import { User } from "../../model/user";
+import { User } from "../../../model/user";
 import { validateRequest } from "@ticketifyorg/common";
 import { BadRequestError } from "@ticketifyorg/common";
-import { Password } from "../password";
+import { Password } from "../../password";
 
 const router = express.Router();
 

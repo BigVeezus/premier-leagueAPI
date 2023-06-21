@@ -1,5 +1,5 @@
 import request from "supertest";
-import { app } from "../../../app";
+import { app } from "../../../../app";
 
 it("fails when an email or password value isnt given", async () => {
   await request(app)
