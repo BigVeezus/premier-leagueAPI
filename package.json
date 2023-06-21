@@ -9,9 +9,10 @@
     "test": "jest"
   },
   "jest": {
+    "preset": "ts-jest",
     "testEnvironment": "node",
     "setupFilesAfterEnv": [
-      "./test/setup.js"
+      "./test/setup.ts"
     ]
   },
   "keywords": [],

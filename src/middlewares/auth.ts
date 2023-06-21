@@ -12,7 +12,7 @@ interface Payload {
 const authMiddleware = (req: any, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return res.status(404).json({
+    return res.status(401).json({
       success: false,
       status: 404,
       message: "NOT AUTHORIZED!",

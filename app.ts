@@ -10,6 +10,7 @@ import { json } from "body-parser";
 import cookieSession from "cookie-session";
 
 //Importing Routers
+import { errorHandler, NotFoundError } from "@ticketifyorg/common";
 import { signupRouter } from "./src/routes/signup";
 import { signinRouter } from "./src/routes/signin";
 import { currentUserRouter } from "./src/routes/current-user";
@@ -41,5 +42,7 @@ app.all("*", (req, res) => {
     message: "Route not found",
   });
 });
+
+app.use(errorHandler);
 
 export { app };

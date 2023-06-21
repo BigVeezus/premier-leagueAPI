@@ -25,7 +25,7 @@ router.post(
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return res.status(500).send({ success: false, message: "Email in Use" });
+      return res.status(403).send({ success: false, message: "Email in Use" });
     }
 
     const user = User.build({
@@ -41,7 +41,10 @@ router.post(
         email: user.email,
         role: user.role,
       },
-      "prem"
+      "prem",
+      {
+        expiresIn: "2h",
+      }
     );
 
     res

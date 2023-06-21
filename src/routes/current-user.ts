@@ -6,7 +6,7 @@ import { UserAuthRequest } from "../types/AuthReq";
 const router = express.Router();
 
 router.get("/api/users/currentuser", authMiddleware, (req: any, res) => {
-  res.send({ user: req.userEmail, role: req.userRole || null });
+  res.send({ currentUser: req.userEmail, role: req.userRole || null });
 });
 
 export { router as currentUserRouter };
