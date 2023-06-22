@@ -19,6 +19,7 @@ import { getAllTeamsRouter } from "./src/routes/team/getAllTeams";
 import { showTeamRouter } from "./src/routes/team/showTeam";
 import { editTeamRouter } from "./src/routes/team/editTeam";
 import { adminSignupRouter } from "./src/routes/user/admin-signup";
+import { createFixtureRouter } from "./src/routes/fixtures/createFixture";
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(createTeamRouter);
 app.use(getAllTeamsRouter);
 app.use(showTeamRouter);
 app.use(editTeamRouter);
+app.use(createFixtureRouter);
 
 app.get("/", (req, res) => {
   res.send("him Duncan");

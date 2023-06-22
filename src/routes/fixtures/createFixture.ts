@@ -7,6 +7,7 @@ import { BadRequestError, validateRequest } from "@ticketifyorg/common";
 import { Team } from "../../../model/teams";
 import { adminGuard } from "../../middlewares/adminGuard";
 import { authMiddleware } from "../../middlewares/auth";
+import { Fixture } from "../../../model/fixtures";
 
 const router = express.Router();
 
@@ -15,35 +16,48 @@ router.post(
   [
     body("homeTeam").notEmpty().withMessage("homeTeam must not be empty"),
     body("awayTeam").notEmpty().withMessage("awayTeam must not be empty"),
-    body("stadium").notEmpty().withMessage("stadium must not be empty"),
-    body("yearFounded")
-      .notEmpty()
-      .withMessage("year must not be empty")
-      .isNumeric()
-      .withMessage("value must be a number"),
+    body("date").notEmpty().withMessage("date must not be empty"),
   ],
   validateRequest,
-  authMiddleware,
-  adminGuard,
+  // authMiddleware,
+  // adminGuard,
   async (req: Request, res: Response) => {
-    const { name, league, stadium, yearFounded } = req.body;
+    const { homeTeam, awayTeam, date, isPending, isCompleted } = req.body;
 
-    const existingTeam = await Team.findOne({ name });
+    const existingfixture = await Fixture.find({ homeTeam, awayTeam, date });
+    console.log(existingfixture);
 
-    if (existingTeam) {
-      return res.status(403).send({ success: false, message: "Team exists" });
+    if (existingfixture.length > 0) {
+      return res
+        .status(400)
+        .send({ success: false, message: "Fixture already exists" });
     }
 
-    const team = Team.build({
-      name,
-      league,
-      stadium,
-      yearFounded,
-    });
-    await team.save();
+    const existingHomeTeam = await Team.findOne({ name: homeTeam });
+    const existingAwayTeam = await Team.findOne({ name: awayTeam });
 
-    res.status(201).send({ success: true, message: "team created", team });
+    if (!existingHomeTeam || !existingAwayTeam) {
+      return res
+        .status(404)
+        .send({ success: false, message: "Home or Away team not found" });
+    }
+
+    const gameStadium = existingHomeTeam.stadium;
+
+    const fixture = Fixture.build({
+      homeTeam,
+      awayTeam,
+      gameStadium,
+      date,
+      isCompleted,
+      isPending,
+    });
+    await fixture.save();
+
+    res
+      .status(201)
+      .send({ success: true, message: "Fixture created", fixture });
   }
 );
 
-export { router as createTeamRouter };
+export { router as createFixtureRouter };

@@ -6,9 +6,9 @@ import * as slugger from "mongoose-slugger-plugin";
 interface FixtureAttrs {
   homeTeam: string;
   awayTeam: string;
-  gameStadium: number;
-  isCompleted: boolean;
-  isPending: boolean;
+  gameStadium: string;
+  isCompleted?: boolean;
+  isPending?: boolean;
   date: string;
 }
 
@@ -23,9 +23,9 @@ interface FixtureModel extends mongoose.Model<FixtureDoc> {
 interface FixtureDoc extends mongoose.Document {
   homeTeam: string;
   awayTeam: string;
-  gameStadium: number;
-  isCompleted: boolean;
-  isPending: boolean;
+  gameStadium: string;
+  isCompleted?: boolean;
+  isPending?: boolean;
   date: string;
   slug: string;
 }
