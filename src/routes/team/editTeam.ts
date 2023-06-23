@@ -21,7 +21,7 @@ router.put(
   validateRequest,
   authMiddleware,
   async (req: Request, res: Response) => {
-    const { name, league, stadium, yearFounded } = req.body;
+    const { name, league, stadium, yearFounded, status } = req.body;
 
     const existingTeam = await Team.findById(req.params.id);
 
@@ -30,10 +30,11 @@ router.put(
     }
 
     existingTeam.set({
-      name: name,
-      league: league,
-      stadium: stadium,
-      yearFounded: yearFounded,
+      name,
+      league,
+      stadium,
+      yearFounded,
+      status,
     });
     await existingTeam.save();
 

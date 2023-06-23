@@ -8,6 +8,7 @@ import { Team } from "../../../model/teams";
 import { adminGuard } from "../../middlewares/adminGuard";
 import { authMiddleware } from "../../middlewares/auth";
 import { Fixture } from "../../../model/fixtures";
+import { StatusType } from "../../types/statusEnum";
 
 const router = express.Router();
 
@@ -17,15 +18,20 @@ router.post(
     body("homeTeam").notEmpty().withMessage("homeTeam must not be empty"),
     body("awayTeam").notEmpty().withMessage("awayTeam must not be empty"),
     body("date").notEmpty().withMessage("date must not be empty"),
+    body("status")
+      .exists()
+      .withMessage("Status is required")
+      .isIn(["isPending", "isCompleted"])
+      .withMessage("status does not contain required value"),
   ],
   validateRequest,
   // authMiddleware,
   // adminGuard,
   async (req: Request, res: Response) => {
-    const { homeTeam, awayTeam, date, isPending, isCompleted } = req.body;
-
+    const { homeTeam, awayTeam, date } = req.body;
+    const status = StatusType.isPending;
     const existingfixture = await Fixture.find({ homeTeam, awayTeam, date });
-    console.log(existingfixture);
+    // console.log(existingfixture);
 
     if (existingfixture.length > 0) {
       return res
@@ -49,8 +55,7 @@ router.post(
       awayTeam,
       gameStadium,
       date,
-      isCompleted,
-      isPending,
+      status,
     });
     await fixture.save();
 

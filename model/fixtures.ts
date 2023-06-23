@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import * as slugger from "mongoose-slugger-plugin";
+import { StatusType } from "../src/types/statusEnum";
 
 // An interface that describes the properties
 // that are requried to create a new Match
@@ -7,8 +8,7 @@ interface FixtureAttrs {
   homeTeam: string;
   awayTeam: string;
   gameStadium: string;
-  isCompleted?: boolean;
-  isPending?: boolean;
+  status: string;
   date: string;
 }
 
@@ -24,8 +24,7 @@ interface FixtureDoc extends mongoose.Document {
   homeTeam: string;
   awayTeam: string;
   gameStadium: string;
-  isCompleted?: boolean;
-  isPending?: boolean;
+  status: string;
   date: string;
   slug: string;
 }
@@ -44,13 +43,9 @@ const fixtureSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    isCompleted: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    isPending: {
-      type: Boolean,
+    status: {
+      type: String,
+      enum: StatusType,
       required: true,
       default: false,
     },

@@ -6,9 +6,23 @@ import { Team } from "../../../model/teams";
 const router = express.Router();
 
 router.get("/api/team", async (req: Request, res: Response) => {
-  const teams = await Team.find({});
+  try {
+    const search: any = req.query.search || "";
 
-  res.status(200).send({ success: true, teams });
+    let regex = new RegExp(search, "i");
+
+    const teams = await Team.find({
+      $and: [{ $or: [{ name: regex }, { league: regex }] }],
+    });
+    // console.log(existingfixture);
+    res.status(200).send({ success: true, teams });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: true,
+      message: "Internal Server Error",
+    });
+  }
 });
 
 export { router as getAllTeamsRouter };
