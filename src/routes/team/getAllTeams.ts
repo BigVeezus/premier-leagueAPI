@@ -1,8 +1,8 @@
 import express, { Request, Response } from "express";
-import { body, validationResult } from "express-validator";
-import { validateRequest } from "@ticketifyorg/common";
 import { Team } from "../../../model/teams";
+import { getOrSetCache } from "../../../config/redis";
 
+//EXPRESS ROUTER
 const router = express.Router();
 
 router.get("/api/team", async (req: Request, res: Response) => {
@@ -11,10 +11,17 @@ router.get("/api/team", async (req: Request, res: Response) => {
 
     let regex = new RegExp(search, "i");
 
-    const teams = await Team.find({
-      $and: [{ $or: [{ name: regex }, { league: regex }] }],
-    });
-    // console.log(existingfixture);
+    //CHECK AND GET REDIS DATA FIRST
+    const teams = await getOrSetCache(
+      `listofteams?search=${search}`,
+      async () => {
+        const data = await Team.find({
+          $and: [{ $or: [{ name: regex }, { league: regex }] }],
+        });
+        return data;
+      }
+    );
+
     res.status(200).send({ success: true, teams });
   } catch (err) {
     console.log(err);

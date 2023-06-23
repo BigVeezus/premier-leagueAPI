@@ -31,7 +31,7 @@ router.put(
     const { homeTeam, awayTeam, date, isPending, isCompleted } = req.body;
 
     const existingfixture = await Fixture.findById(req.params.id);
-    console.log(existingfixture);
+    // console.log(existingfixture);
 
     if (!existingfixture) {
       throw new NotFoundError();

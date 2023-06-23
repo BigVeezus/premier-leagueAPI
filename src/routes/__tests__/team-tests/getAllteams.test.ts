@@ -1,7 +1,7 @@
 import request from "supertest";
 import { app } from "../../../../app";
 
-it("returns a 201 on getting teams from DB", async () => {
+it("returns a 200 on getting teams from DB", async () => {
   const email = "test@test.com";
   const password = "password";
 
@@ -18,12 +18,7 @@ it("returns a 201 on getting teams from DB", async () => {
   const response2 = await request(app)
     .get("/api/team")
     .set("Authorization", `Bearer ${token}`)
-    .send({
-      name: "test@test.com",
-      league: "la liga",
-      stadium: "test stadium",
-      yearFounded: 2017,
-    })
+    .send()
     .expect(200);
 
   expect(response2.body.success).toBe(true);

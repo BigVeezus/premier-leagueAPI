@@ -33,7 +33,7 @@ const app = express();
 //Rate limiting
 const limiter = rateLimit({
   windowMs: 10 * 60 * 1000,
-  max: 70,
+  max: 50, // -- > Rate limit set to 50 attempts every 10 Minutes
 });
 
 //Configuring Cors to allow all access
