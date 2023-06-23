@@ -29,7 +29,10 @@ router.put(
   adminGuard,
   async (req: Request, res: Response) => {
     const { homeTeam, awayTeam, date, status } = req.body;
-
+    const trimHomeTeam = homeTeam.replace(/\s/g, "-");
+    const trimAwayTeam = awayTeam.replace(/\s/g, "-");
+    const slug = `${trimHomeTeam}-${trimAwayTeam}`;
+    // console.log(slug);
     try {
       const existingfixture = await Fixture.findById(req.params.id);
       // console.log(existingfixture);
@@ -43,6 +46,7 @@ router.put(
         awayTeam,
         date,
         status,
+        slug,
       });
       await existingfixture.save();
 
