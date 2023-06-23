@@ -28,7 +28,7 @@ router.put(
   authMiddleware,
   adminGuard,
   async (req: Request, res: Response) => {
-    const { homeTeam, awayTeam, date, isPending, isCompleted } = req.body;
+    const { homeTeam, awayTeam, date, status } = req.body;
 
     try {
       const existingfixture = await Fixture.findById(req.params.id);
@@ -42,8 +42,7 @@ router.put(
         homeTeam,
         awayTeam,
         date,
-        isPending,
-        isCompleted,
+        status,
       });
       await existingfixture.save();
 
