@@ -11,10 +11,14 @@ router.delete(
   authMiddleware,
   adminGuard,
   async (req: Request, res: Response) => {
-    const { id } = req.params;
-    await Team.findByIdAndDelete(id);
+    try {
+      const { id } = req.params;
+      await Team.findByIdAndDelete(id);
 
-    res.status(200).send({ success: true, message: "Team deleted" });
+      res.status(200).send({ success: true, message: "Team deleted" });
+    } catch (error) {
+      res.status(404).send({ success: false, message: "Invalid ID", error });
+    }
   }
 );
 

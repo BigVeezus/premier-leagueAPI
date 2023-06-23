@@ -12,10 +12,14 @@ router.delete(
   authMiddleware,
   adminGuard,
   async (req: Request, res: Response) => {
-    const { id } = req.params;
-    await Fixture.findByIdAndDelete(id);
+    try {
+      const { id } = req.params;
+      await Fixture.findByIdAndDelete(id);
 
-    res.status(200).send({ success: true, message: "Fixture deleted" });
+      res.status(200).send({ success: true, message: "Fixture deleted" });
+    } catch (error) {
+      res.status(404).send({ success: false, message: "Invalid ID", error });
+    }
   }
 );
 
