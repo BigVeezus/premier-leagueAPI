@@ -25,8 +25,8 @@ router.post(
       .withMessage("status does not contain required value"),
   ],
   validateRequest,
-  // authMiddleware,
-  // adminGuard,
+  authMiddleware,
+  adminGuard,
   async (req: Request, res: Response) => {
     const { homeTeam, awayTeam, date } = req.body;
     const status = StatusType.isPending;

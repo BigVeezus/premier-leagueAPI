@@ -16,7 +16,9 @@ router.get("/api/team", async (req: Request, res: Response) => {
       `listofteams?search=${search}`,
       async () => {
         const data = await Team.find({
-          $and: [{ $or: [{ name: regex }, { league: regex }] }],
+          $and: [
+            { $or: [{ name: regex }, { league: regex }, { stadium: regex }] },
+          ],
         });
         return data;
       }
