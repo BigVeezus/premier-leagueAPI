@@ -23,24 +23,28 @@ router.put(
   async (req: Request, res: Response) => {
     const { name, league, stadium, yearFounded, status } = req.body;
 
-    const existingTeam = await Team.findById(req.params.id);
+    try {
+      const existingTeam = await Team.findById(req.params.id);
 
-    if (!existingTeam) {
-      throw new NotFoundError();
+      if (!existingTeam) {
+        throw new NotFoundError();
+      }
+
+      existingTeam.set({
+        name,
+        league,
+        stadium,
+        yearFounded,
+        status,
+      });
+      await existingTeam.save();
+
+      res
+        .status(200)
+        .send({ success: true, message: "team edited", existingTeam });
+    } catch (err) {
+      res.status(404).send({ success: false, message: "Invalid ID", err });
     }
-
-    existingTeam.set({
-      name,
-      league,
-      stadium,
-      yearFounded,
-      status,
-    });
-    await existingTeam.save();
-
-    res
-      .status(200)
-      .send({ success: true, message: "team edited", existingTeam });
   }
 );
 

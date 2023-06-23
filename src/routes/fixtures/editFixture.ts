@@ -30,25 +30,29 @@ router.put(
   async (req: Request, res: Response) => {
     const { homeTeam, awayTeam, date, isPending, isCompleted } = req.body;
 
-    const existingfixture = await Fixture.findById(req.params.id);
-    // console.log(existingfixture);
+    try {
+      const existingfixture = await Fixture.findById(req.params.id);
+      // console.log(existingfixture);
 
-    if (!existingfixture) {
-      throw new NotFoundError();
+      if (!existingfixture) {
+        throw new NotFoundError();
+      }
+
+      existingfixture.set({
+        homeTeam,
+        awayTeam,
+        date,
+        isPending,
+        isCompleted,
+      });
+      await existingfixture.save();
+
+      res
+        .status(200)
+        .send({ success: true, message: "fixture edited", existingfixture });
+    } catch (error) {
+      res.status(404).send({ success: false, message: "Invalid ID", error });
     }
-
-    existingfixture.set({
-      homeTeam,
-      awayTeam,
-      date,
-      isPending,
-      isCompleted,
-    });
-    await existingfixture.save();
-
-    res
-      .status(200)
-      .send({ success: true, message: "fixture edited", existingfixture });
   }
 );
 
