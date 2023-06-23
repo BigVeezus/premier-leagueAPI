@@ -59,7 +59,15 @@ app.use(deleteFixtureRouter);
 app.use(editFixtureRouter);
 
 app.get("/", (req, res) => {
-  res.send("him Duncan");
+  res.send({
+    NAME: "ELVIS OSUJI",
+    ROLE: "BACKEND ENGINEER",
+    Command:
+      "Install project with 'npm install --force' because I used an old package to create dynamic URL",
+    Test: "RUN 'npm run test'",
+    "API-POSTMAN-DOCUMENTATION":
+      "https://documenter.getpostman.com/view/21609093/2s93z6ciRW",
+  });
 });
 
 app.all("*", (req, res) => {

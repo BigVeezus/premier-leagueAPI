@@ -111,5 +111,5 @@ it("returns a 401 if user is not admin", async () => {
       date: "11-11-2022",
       status: "isPending",
     })
-    .expect(404);
+    .expect(401);
 });
