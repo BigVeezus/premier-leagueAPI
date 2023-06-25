@@ -6,7 +6,17 @@
 
 Documentation: https://documenter.getpostman.com/view/21609093/2s93z6ciRW
 
-......................................
+## To run on DOCKER
+
+-First Docker Pull image to computer
+run `docker pull bigveezus/premier-league-api2:latest`
+
+-Seconly start docker image and expose container port 7000 to local port 8080
+run `docker run --publish 8080:7000 bigveezus/premier-league-api2`
+
+Enjoy!
+.............................................................
+.............................................................
 
 # Software Developer Application Test
 
